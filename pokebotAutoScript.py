@@ -1,3 +1,9 @@
+#written by Adam Hamilton-Sutherland
+
+#This is a work in progress. Script only works in 1920x1080 screens 
+#when the discord window occupys the left half of the screen. 
+#This is because of how the mouse input works.
+
 import pynput
 import random
 import time
@@ -18,14 +24,12 @@ def gameLoop():
 
     keyboard.type(';p')
     
-    delay = 1
-    time.sleep(delay)
+    time.sleep(1)
     
     keyboard.press(Key.enter)
     keyboard.release(Key.enter)
 
-    delay = 3
-    time.sleep(delay)
+    time.sleep(3)
 
     copyMsg()
 
@@ -39,8 +43,7 @@ def gameLoop():
 
     keyboard.type(poke)
 
-    delay = 1
-    time.sleep(delay)
+    time.sleep(1)
 
     keyboard.press(Key.enter)
     keyboard.release(Key.enter)
