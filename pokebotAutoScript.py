@@ -51,7 +51,7 @@ def gameLoop():
 
 def copyMsg():
     a,b = mouse.position
-    mouse.position=(a,890)
+    mouse.position=(a,870)
 
     time.sleep(.3)
     
@@ -71,7 +71,7 @@ def copyMsg():
 def readClipboard():
     text = clipboard.paste()
     
-    if 'captcha' in text or 'attempts' in text or 'you there' in text or 'banned' in text:
+    if 'continue' in text or 'captcha' in text or 'attempts' in text or 'you there' in text or 'banned' in text or 'bot' in text:
         print("Captcha detected. Exiting...")
         return ''
     elif 'Shiny' in text:
