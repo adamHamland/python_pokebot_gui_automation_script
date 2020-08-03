@@ -4,9 +4,9 @@
 #when the discord window occupys the left half of the screen. 
 #This is because of how the mouse input works.
 
-import pynput
 import random
 import time
+import pynput
 
 from pynput.keyboard import Key, Controller
 from pynput.mouse import Button, Controller
@@ -38,7 +38,7 @@ def gameLoop():
     if poke == '':
         exit()
     else:
-        delay = random.randrange(2,4)
+        delay = random.randrange(1,2)
         time.sleep(delay)
 
         keyboard.type(poke)
@@ -71,21 +71,24 @@ def copyMsg():
 def readClipboard():
     text = clipboard.paste()
     
-    if 'captcha' in text:
+    if 'captcha' in text or 'attempts' in text or 'you there' in text or 'banned' in text:
         print("Captcha detected. Exiting...")
         return ''
     elif 'Shiny' in text:
-        print("Shiny found. Throwing mb.", "\n\n---\n")
+        print("Shiny found. Throwing mb.", "\n")
         return 'mb'
     elif 'Legendary' in text:
-        print("Legendary found. Throwing ub.", "\n\n---\n")
+        print("Legendary found. Throwing ub.", "\n")
         return 'ub'
     elif 'Super Rare' in text:
-        print("Super Rare found. Throwing gb.", "\n\n---\n")
+        print("Super Rare found. Throwing gb.", "\n")
         return 'gb'
-    else:
-        print("Common, Uncommon, or Rare found. Throwing pb.", "\n\n---\n")
+    elif 'Common' in text or 'Uncommon' in text or 'Rare' in text:
+        print("Common, Uncommon, or Rare found. Throwing pb.", "\n")
         return 'pb'
+    else:
+        print("Error. Exiting...")
+        return ''
 
 #main
 
