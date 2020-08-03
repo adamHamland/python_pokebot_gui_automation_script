@@ -7,14 +7,17 @@
 import random
 import time
 import pynput
+import signal
+import os
 
-from pynput.keyboard import Key, Controller
+#from pynput.keyboard import Key, Controller
+
 from pynput.mouse import Button, Controller
-
+from pynput import keyboard
 import clipboard
 
+#keyboard = pynput.keyboard.Controller() 
 
-keyboard = pynput.keyboard.Controller() 
 mouse = pynput.mouse.Controller()
     
 def gameLoop():
@@ -22,12 +25,12 @@ def gameLoop():
 
     time.sleep(delay)
 
-    keyboard.type(';p')
+    keyboard.Controller().type(';p')
     
     time.sleep(1)
     
-    keyboard.press(Key.enter)
-    keyboard.release(Key.enter)
+    keyboard.Controller().press(keyboard.Key.enter)
+    keyboard.Controller().release(keyboard.Key.enter)
 
     time.sleep(3)
 
@@ -41,12 +44,12 @@ def gameLoop():
         delay = random.randrange(1,2)
         time.sleep(delay)
 
-        keyboard.type(poke)
+        keyboard.Controller().type(poke)
 
         time.sleep(1)
 
-        keyboard.press(Key.enter)
-        keyboard.release(Key.enter)
+        keyboard.Controller().press(keyboard.Key.enter)
+        keyboard.Controller().release(keyboard.Key.enter)
 
 
 def copyMsg():
@@ -63,45 +66,64 @@ def copyMsg():
     
     time.sleep(.5)
 
-    keyboard.press(Key.ctrl)
-    keyboard.press('c')
-    keyboard.release('c')
-    keyboard.release(Key.ctrl)
+    keyboard.Controller().press(keyboard.Key.ctrl)
+    keyboard.Controller().press('c')
+    keyboard.Controller().release('c')
+    keyboard.Controller().release(keyboard.Key.ctrl)
 
 def readClipboard():
     text = clipboard.paste()
+    text = clipboard.paste()
+
+    print("---")
+    print(text)
+    print("---")
     
     if 'continue' in text or 'captcha' in text or 'attempts' in text or 'you there' in text or 'banned' in text or 'bot' in text:
         print("Captcha detected. Exiting...")
         return ''
     elif 'Shiny' in text:
-        print("Shiny found. Throwing mb.", "\n")
+        print("Shiny found. Throwing mb.", "\n===\n")
         return 'mb'
     elif 'Legendary' in text:
-        print("Legendary found. Throwing ub.", "\n")
+        print("Legendary found. Throwing ub.", "\n===\n")
         return 'ub'
     elif 'Super Rare' in text:
-        print("Super Rare found. Throwing gb.", "\n")
+        print("Super Rare found. Throwing gb.", "\n===\n")
         return 'gb'
     elif 'Common' in text or 'Uncommon' in text or 'Rare' in text:
-        print("Common, Uncommon, or Rare found. Throwing pb.", "\n")
+        print("Common, Uncommon, or Rare found. Throwing pb.", "\n===\n")
         return 'pb'
     else:
         print("Error. Exiting...")
         return ''
 
+#threading and signal handleing
+def on_press(key):
+    pass
+
+def on_release(key):
+    if key == keyboard.Key.esc:
+        print("Esc key pressed. Exiting...")
+
+        signal.pthread_kill(os.getppid(), signal.SIGINT)
+
+
 #main
+
+listener = keyboard.Listener(on_press=on_press, on_release=on_release)
+listener.start()
 
 for x in range(0,10): #no way this runs more than 10 times without getting the captcha
 
     time.sleep(10)
     
-    keyboard.type(';shop buy 1 20')
+    keyboard.Controller().type(';shop buy 1 20')
     
     time.sleep(4)
     
-    keyboard.press(Key.enter)
-    keyboard.release(Key.enter)
+    keyboard.Controller().press(keyboard.Key.enter)
+    keyboard.Controller().release(keyboard.Key.enter)
 
     for x in range(0,20):
         gameLoop()
